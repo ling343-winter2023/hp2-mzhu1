@@ -1,0 +1,10 @@
+---
+title: "About"
+---
+
+About this site
+
+```{r}
+# MIT Phonetics Data: 
+  # Affricate Distribution: https://ocw.mit.edu/courses/24-915-linguistic-phonetics-fall-2015/resources/affricate_data_dist
+```

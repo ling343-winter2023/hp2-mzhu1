@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Hp2 Website",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\nUsing Data from MIT: https://ocw.mit.edu/courses/24-915-linguistic-phonetics-fall-2015/resources/affricate_data_dist/\n\n# Index Page\n# Using data from MIT: https://ocw.mit.edu/courses/24-915-linguistic-phonetics-fall-2015/resources/affricate_data_dist/"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n# MIT Phonetics Data: \n  # Affricate Distribution: https://ocw.mit.edu/courses/24-915-linguistic-phonetics-fall-2015/resources/affricate_data_dist"
+  }
+]
