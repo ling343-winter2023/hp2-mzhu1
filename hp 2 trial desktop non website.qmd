@@ -1,0 +1,602 @@
+---
+title: "Ling 343: HP 2 Desktop Edited Version"
+#Removed: (Likely the Final / Best Version) only for cosmetic reasons 
+author: M. Zhu
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+output: 
+  html_document: default
+---
+
+## HP 2: MIT Affricate Data Analysis
+
+Source: https://ocw.mit.edu/courses/24-915-linguistic-phonetics-fall-2015/resources/affricate_data_dist/
+
+```{r}
+# ERROR: YAMLError: can not read a block mapping entry; a multiline key may not # be an implicit key at line 6, column 1:
+# install.packages("yaml")
+library(yaml)
+#Warning: package ‘yaml’ was built under R version 4.2.3
+#This is a common message I encountered both on my laptop as well as from the  # school desktop. I will try and ignore it and nevertheless complete the       # project to the best of my abilities 
+```
+
+M. Zhu's attempt at HP 2. From a USB Drive File given issues on his desktop version of R. 1
+
+First running some libraries
+
+Doing this as a "non website" first. If time permits and it all works, this might perhaps be rendered as a website or there will be an attempt to render this project as such.
+
+```{r}
+library(tidyverse)
+```
+
+You can add options to executable code like this
+
+```{r}
+library(googlesheets4) #works from campus desktop but not my R. 
+#decided to just work directly from the desktop with it saved on a USB rather than #dealing with my laptop for now 
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+```{r}
+# install.packages("readxl")
+library(readxl)
+```
+
+```{r}
+# install.packages("writexl")
+library(writexl)
+```
+
+```{r}
+library(writexl)
+```
+
+```{r}
+read_excel("mit data desktop.xlsx")
+#after getting rid of other aspects, it surprisingly is working 
+```
+
+Going to attempt to just used the "Needs V'd" construction because that is a "safe" Google Sheets that I know is "legal" to use despite being repeated from earlier assignments from this class.
+
+Trial Google Sheets
+
+```{r}
+library(googlesheets4)
+library(tidyverse)
+```
+
+```{r}
+needsvd_url <- "https://docs.google.com/spreadsheets/d/1V4zxt-zlLwsQ7xbP-kkNh2pFyjTDDnKtS-IhpFJ03wc/edit#gid=196049496"
+needsvs <- read_sheet(needsvd_url)
+```
+
+```{r}
+#Attempt at an example/spreadsheet from the textbook "R for Data Science"
+students_url <- "https://docs.google.com/spreadsheets/d/1V1nPp1tzOuutXFLb3G9Eyxi3qxeEhnOXUzL5_BcCQ0w"
+students <- read_sheet(students_url)
+
+```
+
+```{r}
+#Copying from the Textbook to test functionalities out 
+
+# students <- read_sheet(
+#   students_url,
+#   col_names = c("student_id", "full_name", "favourite_food", "meal_plan", "age"),
+#   skip = 1,
+#   na = c("", "N/A"),
+#   col_types = "dcccc"
+# )
+
+#Tried the Control + Shift + C trick to comment everything out 
+```
+
+Back to the MIT Data
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(writexl)
+read_excel("mit data desktop.xlsx")
+
+#Reads the whole file, trying to have it read the second tab or the .csv 
+```
+
+```{r}
+# affricatedata <- read.csv("affricate_data.csv")
+
+# data <- read.csv("affricate_data.csv")
+#attempt at reading the csv file isn't working 
+
+#seems to work
+  #read_csv("mit data desktop.xlsx")
+
+# read_excel("mit data desktop/affricate_data.csv") Not working
+
+# read_csv("affricate_data.csv")
+#Not working
+# It is a csv within an .xlsx, in the worst case, create a seperate .csv file # #JUST with the CSV data 
+
+#Created "mit data desktop.csv"
+read_csv("mit data desktop.csv")
+
+#This worked, created another file just as a .csv was easier to work with than # to try and navigate within that .xlsx file for the .csv tab 
+
+#Note: I also put these files in the "website" folder after creating the website 
+#project or else it woudl not run 
+
+#something about a comma as a delimiter
+```
+
+Note: Lacking "creativity," I am admitting that I am looking for inspiration, with slightly modified code straight from the textbook, referencing: https://r4ds.hadley.nz/spreadsheets.html
+
+```{r}
+affricates <- read_csv("mit data desktop.csv") #Assigning the CSV as a          # "variable" name for now
+#Column Specification Error 
+# affricates <- read_sheets(affricates) #Error 
+#Perhaps not "read sheets" but rather "read excel?" or read csv
+affricates #This Worked
+
+```
+
+```{r}
+#Play with earlier content again
+
+affricates <- read_csv("mit data desktop.csv", col_names = c("subject", "word", "affricate", "rhyme", "context", "repetition", "VOT", "intensity", "F1", "clo_voi", "aff_voi"), show_col_types = FALSE) 
+
+#now this works
+
+#Given Note: Specify the column types or set `show_col_types = FALSE` to quiet # this message.
+
+# Admitting being influenced by the code from the Textbook: 
+# affricates <- read_sheet(
+#   students_url,
+#   col_names = c("student_id", "full_name", "favourite_food", "meal_plan", "age"),
+#   skip = 1,
+#   na = c("", "N/A"),
+#   col_types = "dcccc"
+# )
+# 
+# students
+
+```
+
+```{r}
+affricates <- read_csv("mit data desktop.csv", col_names = c("subject", "word", "affricate", "rhyme", "context", "repetition", "VOT", "intensity", "F1", "clo_voi", "aff_voi"), show_col_types = FALSE, skip = 1, 
+                       na = c("", "N/A")) 
+                      # col_types = "dccc") #this line caused the issue, # removed it
+
+# Warning: One or more parsing issues, call `problems()` on your data frame for details, e.g.:
+#   dat <- vroom(...)
+#   problems(dat)
+
+
+#Finished with the read/write CSV phase, at least 
+
+# affricates
+
+#Error: unexpected symbol in "mit data"
+
+```
+
+Trying to "render" at this stage.
+
+```{r}
+affricates
+
+#Note that it is rendering, yaml header, made it output as "console"
+#renders but points to an issue:
+
+# Rows: 504 Columns: 11── Column specification ───────────────────────────────────────────────────────────────────────
+# Delimiter: ","
+# chr (7): subject, word, affricate, rhyme, context, clo_voi, aff_voi
+# dbl (4): repetition, VOT, intensity, F1
+# ℹ Use `spec()` to retrieve the full column specification for this data.
+# ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+```
+
+**Section: Attempt at Grouping (Mutating, Grouping, and Summarizing)**
+
+```{r}
+library(tidyverse)
+#install.packages("nycflights13")
+#library(nycflights13)
+# Error, just done as a sample, nyc flights isn't necessary for this project.
+
+affricates |> 
+  count(repetition) |> 
+  filter(n > 1)
+
+
+affricates |> 
+  count(intensity, subject) |> 
+  filter(intensity > 70)
+#intensity is underlined, not sure why that is not working 
+```
+
+Inspired further by the chapter on "joins":
+
+```{r}
+affricates |> 
+  filter(is.na(repetition))
+
+affricates |> 
+  filter(is.na(intensity) | is.na(subject))
+
+#Removing non numerical data, of which there was none.
+```
+
+```{r}
+# Working Primarily with Numerical Data for now. Attemping working with 
+# "string" data later. 
+affricates |> 
+  count(intensity, F1) |> 
+  filter(n > 1)
+
+```
+
+```{r}
+affricates2 <- affricates |> 
+  mutate(id = row_number(), .before = 1)
+
+#display output of affricates2 (surrogate key attempt)
+
+affricates2
+
+#Not sure if that did anything, though 
+```
+
+```{r}
+#Mutating Join Attempt
+#They mix characters and digits, attempt the same here 
+affricates2 <- affricates |> 
+  select(subject, word, affricate, repetition, VOT, intensity, F1)
+
+affricates2
+#no output, not mixing characters and digits 
+#Tried again and a "simpler" table with fewer columns was indeed created and is #displayed as follows:
+```
+
+```{r}
+#Left Join Attempt
+
+affricates3 <- affricates2
+
+#Creating and renaming a new Tibble 
+
+affricates3 |>
+  left_join(affricates2)
+
+```
+
+```{r}
+#Trial
+affricates3 |> 
+  left_join(affricates2 |> select(repetition, VOT))
+```
+
+```{r}
+affricates3 |> 
+  left_join(affricates2 |> select(VOT))
+```
+
+```{r}
+affricates3 |> 
+  left_join(affricates2 |> select(word, affricate, repetition, VOT))
+```
+
+```{r}
+affricates3 |> 
+  left_join(affricates2 |> select(affricate, repetition, VOT, intensity, F1))
+
+#Each of these are producing a different table, indicates the functions are    # working
+```
+
+```{r}
+library(tidyverse)
+library(dplyr)
+# dplyr::join_by()
+#affricates3 |> 
+#  left_join(affricates2, join_by(F1))
+# Suggested this , `copy` = TRUE, still not working 
+# not sure why "join_by" isn't working 
+# Error in join_by(F1) : could not find function "join_by"
+
+#Tried many times, just going to give up on "join_by" for now.
+
+affricate_df <- tibble(word = c("chain", "cheer", "chin", "choke"))
+# df |> cross_join(df)
+
+#Error in cross_join(df, df) : could not find function "cross_join"
+#Reinstating tidyverse, but cross_join isn't working. 
+
+affricate_df
+```
+
+```{r}
+# left_join(word, rhyme, join_by(repetition))
+# 
+# #Not working
+# Error in UseMethod("left_join") : 
+#   no applicable method for 'left_join' applied to an object of class "function"
+```
+
+```{r}
+affricates |> 
+  summarize(
+    mean_intensity = mean(intensity, na.rm = TRUE),
+    .by = VOT
+  )
+```
+
+```{r}
+affricates |> 
+  group_by(VOT) |> 
+  summarize(
+    mean_intensity = mean(intensity, na.rm = TRUE)
+  )
+
+#Prints output, but printing an issue: 
+# Warning: argument is not numeric or logical: returning NAWarning: argument is not numeric or logical: returning NAWarning:
+```
+
+Finished with the "joins" section.
+
+Ideally, there would be different pages, one "index" page, one page for "joins" and one page for "plots." However, keeping them all as one single "page" for simplicity now.
+
+**Next Section: Attempt at Plotting the Data**
+
+Inspired by code from both the textbook and the course github site: https://lisalevinson.github.io/2023-winter_ling343/classes/2023-02-09.html etc.
+
+```{r}
+
+#removing this to see if it helps with preventing the rendering error
+#removing "#| warning: true"
+affricates
+library(ggplot2)
+ggplot(affricates2, aes(VOT, intensity)) + 
+  geom_point() # + 
+ # geom_smooth(method = "loess", se = FALSE)
+#The last line did not seem to help.
+
+#Not a particularly good plott, but at the very least, a plot was produced
+# Continue to improve from here and interatively come up with better plots 
+```
+
+```{r}
+
+#removed the original backticks in R to see if that would fix the rendering issue
+#removing "#| warning: false"
+affricates
+library(ggplot2)
+ggplot(affricates, aes(affricate, rhyme)) + 
+  geom_point() # + 
+ # geom_smooth(method = "loess", se = FALSE)
+
+#Better but still not a completely meaningful graph
+#group by within graphs may be helpful 
+```
+
+Referencing https://r4ds.hadley.nz/data-visualize.html for further help.
+
+```{r}
+# library(palmerpenguins)
+# install.packages("ggthemes")
+# library(ggthemes)
+```
+
+These next two were attempts that worked locally in R, but which created rendering issues for some reason:
+
+```{r}
+#Causing a potential rendering issue, commenting out this attempt 
+
+# ggplot(data = affricates,
+#        mapping = aes(x = VOT, y = intensity, color = affricate)) + 
+#  geom_point() + 
+#   geom_smooth(method = "lm")
+
+#Trying Numerical Data
+#This one might be causing the rendering issue 
+
+```
+
+Another Attempt:
+
+```{r}
+ ggplot(data = affricates,
+    mapping = aes(x = VOT, y = intensity, color = rhyme)) + 
+ geom_point() + 
+ geom_smooth(method = "lm")
+ 
+ #Removed "affricate" for color to avoid confusion to see if this renders 
+ #It renders and something about "error in list2(na.rm = na.rm, ...) object    # 'VOT" not found
+```
+
+```{r}
+#Causing a potential rendering issue, commenting out this attempt 
+# ggplot(data = affricates2,
+#        mapping = aes(x = VOT, y = intensity)) + 
+#  geom_point(mapping = aes(color = affricate, shape = repetition)) + 
+#   geom_smooth(method = "lm") + 
+#   labs(
+#     title = "VOT vs Intensity by Affricate Type and Repetition",
+#     Subtitle= "Count from MIT Affricate Datasheet", 
+#     x = "VOT", y ="intensity", 
+#     color = "affricate", shape = "repetition"
+#     )
+```
+
+Trying Again:
+
+```{r}
+ggplot(data = affricates,
+      mapping = aes(x = VOT, y = intensity)) + 
+geom_point(mapping = aes(color = rhyme, shape = context)) + 
+  geom_smooth(method = "lm") + 
+  labs(
+     title = "VOT vs Intensity by Affricate Type and Repetition",
+     Subtitle= "Count from MIT Affricate Datasheet", 
+     x = "VOT", y ="intensity", 
+     color = "rhyme", shape = "repetition"
+     )
+
+#Changed a rew things, such as context and not repetition and now it seems to be #able to run
+```
+
+```{r}
+#Categorical Variable
+
+ggplot(affricates, aes(x = repetition)) +
+  geom_bar()
+
+#Wanted to perhaps do na.rm="true"
+```
+
+```{r}
+# Caused an execution error:
+#   Error in `geom_bar()`:
+# ! Problem while computing aesthetics.
+# ℹ Error occurred in the 1st layer.
+# Caused by error in `fct_infreq()`:
+# ! `f` must be a factor or character vector, not a numeric vector
+# Backtrace:
+#   1. global .main()
+#  43. forcats::fct_infreq(repetition)
+# ggplot(affricates, aes(x = fct_infreq(repetition))) +
+#   geom_bar()
+
+#Trying Again with it as a character vector 
+ggplot(affricates, aes(x = fct_infreq(affricate))) +
+  geom_bar()
+
+#now this new version works 
+```
+
+```{r}
+# ggplot(affricates, aes(x = repetition)) +
+# geom_histogram(binwidth = 10)
+
+#Causing an error 
+#Tried multiple different variables for "x" and there were still errors
+
+# Error in geom_histogram(binwidth = 10) :
+# ℹ Error occurred in the 1st layer.
+# Caused by error in `setup_params()`:
+# ! `stat_bin()` requires a continuous x aesthetic
+# ✖ the x aesthetic is discrete.
+# ℹ Perhaps you want `stat="count"`?
+```
+
+```{r}
+ggplot(affricates3, aes(x = word, color = affricate)) +
+  geom_density(linewidth = 0.75)
+
+# Works but seems to cause some issues 
+
+# Lists 	
+# Warning: [38;5;232mGroups with fewer than two data points have been dropped # .[39m
+# Warning: no non-missing arguments to max; returning -Inf
+# But it is still rendering 
+# Warning disappeared now 
+```
+
+```{r}
+#Another Attempt, Similar Issues
+ggplot(affricates, aes(x = word, color = rhyme)) +
+  geom_density(linewidth = 0.75)
+
+#Still Renders, though and looks decent
+```
+
+```{r}
+ggplot(affricates, aes(x = word, color = rhyme, fill = rhyme)) +
+  geom_density(linewidth = 0.75, alpha = 0.5)
+#Renders, had an error, but now it's gone 
+```
+
+Two Numerical Variables
+
+```{r}
+ggplot(affricates, aes(x = VOT, y = intensity)) +
+  geom_point()
+
+#attempt at adding colors failed 
+```
+
+Attempt at Three or More Variables
+
+```{r}
+ggplot(affricates, aes(x = VOT, y = intensity)) +
+  geom_point(aes(color = rhyme, shape = context))
+```
+
+```{r}
+ggplot(affricates, aes(x = VOT, y = intensity)) +
+  geom_point(aes(color = rhyme, shape = context)) +
+  facet_wrap(~repetition)
+
+#Here, repetition works cause you're splitting it up into two graphs based on it. 
+```
+
+This was originally just a regular "R project."
+
+At this point, I tried the "R website" option and created an "R website" though I am not sure if the R website is going to run or render or not.
+
+Attempt at some more graphs:
+
+```{r}
+ggplot(affricates, aes(VOT, intensity)) +
+  geom_density2d_filled(n = 5, h = 10)
+
+#Good Try, though this doesn't yield anything too meaningful. 
+```
+
+After changing this to a website project, the code is running in the console or off on the right side as a "plot" instead of here in Quarto. though it still renders as-is in the browser.
+
+Perhaps if I delete the \_quarto.yml file, I can make this a regular file again
+
+New plots influenced by https://psyteachr.github.io/reprores-v3/ggplot.html
+
+```{r}
+ggplot(affricates, aes(word, intensity)) +
+  geom_density2d_filled(n = 5, h = 10)
+```
+
+```{r}
+ggplot(affricates, aes(affricate, intensity)) +
+  geom_density2d_filled(n = 30, h = 3)
+
+#Looks more meaningful
+```
+
+```{r}
+# ggplot(affricates, aes(word, intensity)) + 
+#   geom_density2d()
+
+#not working 
+```
+
+```{r}
+ggplot(affricates, aes(word, VOT, color = affricate)) +
+  geom_count()
+
+#works, interesting results
+```
+
+```{r}
+#This one does not seem to be producing anything meaningful  
+ggplot(affricates, aes(word, affricate, color = intensity)) +
+  geom_smooth(formula = y ~ x, method="lm") +
+  theme_minimal(base_size = 18)
+```
+
+End of the Plots Section.
+
+Next Step: Strings
+
+(Note: If the "website" version is not working very well, a "non website" version" or an attempt at creating it will be tried)
